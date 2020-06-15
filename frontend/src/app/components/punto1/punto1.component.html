@@ -1,0 +1,73 @@
+<div class="container">
+  <form class="card" #mensajeFrom="ngForm">
+    <div class="card-header"> Envio de Mensajes </div>
+    <div class="card-body">
+      <div class="row form-group">
+        <label class="col-sm-12 col-md-4">Para</label>
+        <input class="form-control col-sm-12 col-md-8" type="text" name="txtPara" [(ngModel)]="mensaje.para" required minlength="7" pattern="[0-9]{7,20}" #txtPara="ngModel" />
+        <div *ngIf="txtPara.invalid && (txtPara.dirty || txtPara.touched)" class="alert alert-danger">
+          <div *ngIf="txtPara.errors.required">
+            El campo Para es requerido
+          </div>
+          <div *ngIf="txtPara.errors.minlength">
+            Se necesitan 7 caracteres m&iacute;nimo
+          </div>
+          <div *ngIf="txtPara.errors.pattern">
+            Solo se admiten numeros
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-sm-12 col-md-4">De</label>
+        <input class="form-control col-sm-12 col-md-8" name="txtDesde" [(ngModel)]="mensaje.de" required minlength="3"
+          pattern="[A-Za-z ]{1,254}" #txtDesde="ngModel" />
+        <div *ngIf="txtDesde.invalid && (txtDesde.dirty || txtDesde.touched)" class="alert alert-danger">
+          <div *ngIf="txtDesde.errors.required">
+            El campo De es requerido
+          </div>
+          <div *ngIf="txtDesde.errors.minlength">
+            Se necesitan 3 caracteres m&iacute;nimo
+          </div>
+          <div *ngIf="txtDesde.errors.pattern">
+            Solo se admiten letras
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-12">Mensaje - Tamaño: {{ tamTexto }} | M&aacute;ximo 100 caracteres</label>
+        <textarea class="form-control col-12" [maxlength]="tamMaxTexto" rows="5" name="txtTexto"
+          [(ngModel)]="mensaje.texto" (ngModelChange)="cambiarTamTexto()" required>
+        </textarea>
+      </div>
+
+      <div class="row form-group">
+        <button type="submit" class="btn btn-primary" (click)="enviarMensaje()" [disabled]="!mensajeFrom.form.valid" >Enviar</button>
+        <button type="button" class="btn btn-secondary" (click)="limpiarMensaje()">Limpiar</button>
+      </div>
+    </div>
+  </form>
+
+  <h2>Informaci&oacute;n de Mensaje</h2>
+  <table class="table mt-10">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Para</th>
+        <th>De</th>
+        <th>Mensaje</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mensaje of mensajes; index as i">
+        <td>{{ i+1 }}</td>
+        <td>{{ mensaje.para }}</td>
+        <td>{{ mensaje.de }}</td>
+        <td>{{ mensaje.texto }}</td>
+        <td>{{ mensaje.fecha | date:"dd/MM/yyyy" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

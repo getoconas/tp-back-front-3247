@@ -1,0 +1,104 @@
+<div *ngIf="!gano && !perdio" class="row">
+  <div *ngIf="fueIniciado" class="card col-12">
+    
+    <!-- Vidas y Puntaje-->
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4> VIDAS: {{vidas}}</h4>
+      </div>
+      <div class="mx-auto">
+        <h4> PUNTAJE: {{puntaje}}</h4>
+      </div>
+    </div>
+    
+    <!-- Foto del Animal -->
+    <div class="modal-content">
+      <img src="{{itemSelect.url}}" alt="item-photo" class="rounded mx-auto d-block" width="250" height="250">
+    </div>
+
+    <!-- Inputs para poner las letras -->
+    <div class="card-footer">
+      <div class="col-12 mx-auto">
+        <div class="row">
+          <div *ngFor="let item of letrasParaAdivinar; index as i " class="mx-auto">
+            <input id="{{ i }}" maxlength="1" class="my-inputs text-center text-uppercase" size="3" type="text" (keydown)="keydown(i,$event)" (focus)="verificarPorBotones(i)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Teclado de pantalla -->
+    <div class="card-footer">
+      <div class="row">
+        <div class="m-1" *ngFor="let item of letras">
+          <button class="m-1 btn btn-primary btn-block" (click)="seleccionarTecla(item)">{{ item }}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Palabra en castellano -->
+    <div class="card-footer">
+      <div class="card border-dark text-center text-uppercase">
+        <h4>{{ itemSelect.palabra }}</h4>
+      </div>
+    </div>
+    
+    <!-- Rendirse -->
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="fueIniciado=false">¡Me rindo!</button>
+    </div>
+  </div>
+
+  <!-- Pantalla de Inicio del Juego -->
+  <div *ngIf="!fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>Ahorcadito de Animales</h4>
+      </div>
+    </div>
+    <div class="modal-content">
+      <img src="https://webeuropa.weebly.com/uploads/7/4/6/3/7463871/891882021.jpg?632" class="img-fluid" alt="start">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-primary" (click)="iniciarJuego()">
+        Iniciar Juego
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Juego Ganado -->
+<div *ngIf="gano" class="row">
+  <div *ngIf="fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>¡Felicidades!</h4>
+      </div>
+
+    </div>
+    <div class="modal-content">
+      <img src="https://media.giphy.com/media/nbJUuYFI6s0w0/giphy.gif" alt="item-photo">
+
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="iniciarJuego()">Jugar de nuevo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Juego Perdido -->
+<div *ngIf="perdio" class="row">
+  <div *ngIf="fueIniciado" class="card col-12 mt-5">
+    <div class="modal-header">
+      <div class="mx-auto">
+        <h4>¡Juego terminado!</h4>
+      </div>
+    </div>
+    <div class="modal-content">
+      <img src="https://media1.tenor.com/images/ec02259aeaa448c66d21c3e73bec5632/tenor.gif" alt="item-photo">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-block btn-danger" (click)="iniciarJuego()">Intentar de nuevo</button>
+    </div>
+  </div>
+</div>

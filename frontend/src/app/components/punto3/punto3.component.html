@@ -1,0 +1,100 @@
+<div class="container">
+  <form class="card" #pasajeFrom="ngForm">
+    <div class="card-header">Venta de Pasajes</div>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="dnipasajero">DNI</label>
+        <input type="text" id="dniPasajero" class="form-control" name="txtDni" #dniPasajero="ngModel" placeholder="Ingrese DNI" [(ngModel)]="pasaje.dniPasajero" required minlength="7" pattern="[0-9]{7,9}" #txtDni="ngModel">
+        <div *ngIf="txtDni.invalid && (txtDni.dirty || txtDni.touched)" class="alert alert-danger">
+          <div *ngIf="txtDni.errors.required">
+            El campo DNI es requerido
+          </div>
+          <div *ngIf="txtDni.errors.minlength">
+            Se necesitan 7 caracteres m&iacute;nimo
+          </div>
+          <div *ngIf="txtDni.errors.pattern">
+            Solo se admiten numeros
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="precio">Precio</label>
+        <input type="text" class="form-control" id="precio" name="txtPrecio" placeholder="Ingrese valor del pasaje" [(ngModel)]="pasaje.precioPasaje" required pattern="(^[1-9][0-9]*.[0-9][0-9]|^[1-9][0-9]*$|^[1-9][0-9]*.[0-9])" #txtPrecio="ngModel"/>
+        <div *ngIf="txtPrecio.invalid && (txtPrecio.dirty || txtPrecio.touched)" class="alert alert-danger">
+          <div *ngIf="txtPrecio.errors.required">
+            El campo Precio es requerido
+          </div>
+          <div *ngIf="txtPrecio.errors.pattern">
+            Solo se admiten precios mayores a ceros y hasta dos decimales
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="categoria">Categor&iacute;a</label>
+        <select name="cmbCategoria" id="categoria" class="form-control" [(ngModel)]="pasaje.categoriaPasajero" (change)="calcularDescuento()" required #cmbCategoria="ngModel">
+          <option selected value="a">Adulto</option>
+          <option value="m">Menor</option>
+          <option value="j">Jubilado</option>
+        </select>
+        <div *ngIf="cmbCategoria.invalid && (cmbCategoria.dirty || cmbCategoria.touched)" class="alert alert-danger">
+          <div *ngIf="cmbCategoria.errors.required">
+            El campo Categor&iacute;a es requerido
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="mostrarDescuento">
+        <div class="alert-success">Valor Descuento: $ {{ precioDescuento }}</div>
+        <div>Valor Final: $ {{ precioFinal }}</div>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="venderPasaje()" [disabled]="!pasajeFrom.form.valid">Vender Pasaje</button> 
+        <button type="button" class="btn btn-primary" (click)="limpiarPantalla()">Limpiar</button>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-striped" [mfData]="pasajes" #mf="mfDataTable" [mfRowsOnPage]="3">
+    <thead>
+      <tr>
+        <th style="width: 10%;">
+          <mfDefaultSorter by="id">#</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="dniPasajero">DNI</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="precioPasaje">Precio</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="categoriaPasajero">Categoria</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="fechaCompra">Fecha</mfDefaultSorter>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pasaje of mf.data; index as i">
+        <td>{{ i+1 }}</td>
+        <td>{{ pasaje.dniPasajero }}</td>
+        <td>$ {{ pasaje.precioPasaje }}</td>
+        <td *ngIf="pasaje.categoriaPasajero=='a'"> Adulto </td>
+        <td *ngIf="pasaje.categoriaPasajero=='j'"> Jubilado </td>
+        <td *ngIf="pasaje.categoriaPasajero=='m'"> Menor </td>
+        <td>{{ pasaje.fechaCompra | date:"dd/MM/yyyy" }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
