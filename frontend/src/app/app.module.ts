@@ -14,6 +14,9 @@ import { Punto3Component } from './components/punto3/punto3.component';
 import { Punto4Component } from './components/punto4/punto4.component';
 
 import { NgxDataTableModule } from 'angular-9-datatable';
+import { HttpClientModule } from '@angular/common/http';
+
+//import { HttpModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { NgxDataTableModule } from 'angular-9-datatable';
     app_routing,
     FormsModule,
     NgxDataTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
