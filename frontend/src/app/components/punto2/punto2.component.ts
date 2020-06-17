@@ -27,7 +27,7 @@ export class Punto2Component implements OnInit {
     } else {
       this.solicitarConstancia();
     }
-    this.asistente = new Asistente();
+    this.limpiarCampos();
   }
 
   public solicitarConstancia() {
@@ -43,12 +43,9 @@ export class Punto2Component implements OnInit {
   }
 
   public refrescarAsistente() {
-    //this.asistentes = new Array<Asistente>();
     this.asistenteService.getAsistentes().subscribe(
       (result) => {
         this.asistentes = new Array<Asistente>();
-        //this.asistente = result;
-        //var asis: Asistente = new Asistente();
         result.forEach(element => {
           var asis: Asistente = new Asistente();
           Object.assign(asis, element);
@@ -65,6 +62,7 @@ export class Punto2Component implements OnInit {
     this.asistenteService.deleteAsistente(asistente._id).subscribe(
       result => {
         this.refrescarAsistente();
+        alert("Asistente Eliminado");
       },
       error => {
         console.log(error);
@@ -78,17 +76,21 @@ export class Punto2Component implements OnInit {
   }
 
   public modificarDatos() {
-    console.log("Modificar Datos");
-    console.log(this.asistente._id);
     this.asistenteService.updateAsistente(this.asistente).subscribe(
-      (result) => {
-        console.log(result);
+      result => {
+        this.btnModificar = false;
         this.refrescarAsistente();
+        this.limpiarCampos();
+        alert("Asistente Modificado");
       },
-      (error) => {
+      error => {
         console.log(error);
       }
     )
+  }
+
+  public limpiarCampos() {
+    this.asistente = new Asistente();
   }
 
   ngOnInit(): void {

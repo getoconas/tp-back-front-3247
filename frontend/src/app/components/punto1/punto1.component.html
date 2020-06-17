@@ -4,7 +4,8 @@
     <div class="card-body">
       <div class="row form-group">
         <label class="col-sm-12 col-md-4">Para</label>
-        <input class="form-control col-sm-12 col-md-8" type="text" name="txtPara" [(ngModel)]="mensaje.para" required minlength="7" pattern="[0-9]{7,20}" #txtPara="ngModel" />
+        <input class="form-control col-sm-12 col-md-8" type="text" name="txtPara" [(ngModel)]="mensaje.para" required
+          minlength="7" pattern="[0-9]{7,20}" #txtPara="ngModel" />
         <div *ngIf="txtPara.invalid && (txtPara.dirty || txtPara.touched)" class="alert alert-danger">
           <div *ngIf="txtPara.errors.required">
             El campo Para es requerido
@@ -19,9 +20,76 @@
       </div>
 
       <div class="row form-group">
+        <label class="col-sm-12 col-md-4">Empresa</label>
+        <!-- Carga la lista de la base de datos -->
+        <select name="categoria " class="form-control col-sm-12 col-md-8" [(ngModel)]="mensaje.empresa" required>
+          <option value="{{item._id}}" *ngFor="let item of empresas"> {{item.nombre}} </option>
+        </select>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+          Agregar Empresa
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Agregar Empresa</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="card-body">
+                  <form class="card" #empresaForm="ngForm">
+                    <div class="row form-group">
+                      <label class="col-sm-12 col-md-4">Nombre</label>
+                      <input class="form-control col-sm-12 col-md-8" name="txtNombreEmpresa" [(ngModel)]="empresa.nombre"
+                        required minlength="3" pattern="[A-Za-z ]{1,254}" #txtNombreEmpresa="ngModel" />
+                      <div *ngIf="txtNombreEmpresa.invalid && (txtNombreEmpresa.dirty || txtNombreEmpresa.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="txtNombreEmpresa.errors.required">
+                          El campo Nombre es requerido
+                        </div>
+                        <div *ngIf="txtNombreEmpresa.errors.minlength">
+                          Se necesitan 3 caracteres m&iacute;nimo
+                        </div>
+                        <div *ngIf="txtNombreEmpresa.errors.pattern">
+                          Solo se admiten letras
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row form-group">
+                      <label class="col-sm-12 col-md-4">Email</label>
+                      <input class="form-control col-sm-12 col-md-8" type="text" name="txtEmail"
+                        [(ngModel)]="empresa.email" required email #txtEmail="ngModel" />
+                      <div *ngIf="txtEmail.invalid && (txtEmail.dirty || txtEmail.touched)" class="alert alert-danger">
+                        <div *ngIf="txtEmail.errors.required">
+                          El campo Email es requerido
+                        </div>
+                        <div *ngIf="txtEmail.errors.email">
+                          Ingrese un email v&aacute;lido
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" (click)="agregarEmpresa()" data-dismiss="modal">Agregar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
         <label class="col-sm-12 col-md-4">De</label>
-        <input class="form-control col-sm-12 col-md-8" name="txtDesde" [(ngModel)]="mensaje.de" required minlength="3"
-          pattern="[A-Za-z ]{1,254}" #txtDesde="ngModel" />
+        <input class="form-control col-sm-12 col-md-8" name="txtDesde" [(ngModel)]="mensaje.desde" required
+          minlength="3" pattern="[A-Za-z ]{1,254}" #txtDesde="ngModel" />
         <div *ngIf="txtDesde.invalid && (txtDesde.dirty || txtDesde.touched)" class="alert alert-danger">
           <div *ngIf="txtDesde.errors.required">
             El campo De es requerido
@@ -43,7 +111,8 @@
       </div>
 
       <div class="row form-group">
-        <button type="submit" class="btn btn-primary" (click)="enviarMensaje()" [disabled]="!mensajeFrom.form.valid" >Enviar</button>
+        <button type="submit" class="btn btn-primary" (click)="enviarMensaje()"
+          [disabled]="!mensajeFrom.form.valid">Enviar</button>
         <button type="button" class="btn btn-secondary" (click)="limpiarMensaje()">Limpiar</button>
       </div>
     </div>
@@ -55,6 +124,7 @@
       <tr>
         <th>#</th>
         <th>Para</th>
+        <!--<th>Empresa</th>-->
         <th>De</th>
         <th>Mensaje</th>
         <th>Fecha</th>
@@ -64,7 +134,8 @@
       <tr *ngFor="let mensaje of mensajes; index as i">
         <td>{{ i+1 }}</td>
         <td>{{ mensaje.para }}</td>
-        <td>{{ mensaje.de }}</td>
+        <!--<td>{{ mensaje.empresa.nombre }}</td>-->
+        <td>{{ mensaje.desde }}</td>
         <td>{{ mensaje.texto }}</td>
         <td>{{ mensaje.fecha | date:"dd/MM/yyyy" }}</td>
       </tr>
