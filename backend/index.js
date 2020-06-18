@@ -14,6 +14,8 @@ app.use(cors({
 app.use('/api/asistentes', require('./routes/asistentes.routes'));
 app.use('/api/mensajes', require('./routes/mensajes.routes'));
 app.use('/api/empresas', require('./routes/empresas.routes'));
+app.use('/api/adelantos', require('./routes/adelantos.routes'));
+app.use('/api/ventas', require('./routes/ventas.routes'));
 
 // Setting
 app.set('port', process.env.PORT || 3000);
