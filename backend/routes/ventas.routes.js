@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Definimos el controlador para el manejo del CRUD
-const mensajeCtrl = require('./../controllers/venta.controller');
+const VentaCtrl = require('./../controllers/venta.controller');
 
 // Definimos las rutas
 router.get('/', VentaCtrl.getVentas);

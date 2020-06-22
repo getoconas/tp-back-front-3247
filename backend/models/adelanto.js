@@ -7,5 +7,4 @@ const AdelantoSchema = new Schema({
   montoAdelanto: { type: Number, required: true },
 })
 
-
 module.exports = mongoose.model('Adelanto', AdelantoSchema);

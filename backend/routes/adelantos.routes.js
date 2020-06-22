@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Definimos el controlador para el manejo del CRUD
-const mensajeCtrl = require('./../controllers/adelanto.controller');
+const adelantoCtrl = require('./../controllers/adelanto.controller');
 
 // Definimos las rutas
 router.get('/', adelantoCtrl.getAdelantos);

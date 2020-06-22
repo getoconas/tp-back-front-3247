@@ -12,7 +12,7 @@ VentaCtrl.createVenta = async (req, res) => {
     await venta.save();
     res.json({
         'status': 'Venta saved',
-        'venta':venta
+        'venta': venta
     });
 }
 
@@ -37,4 +37,4 @@ VentaCtrl.deleteVenta = async (req, res)=>{
     })
 }
 
-module.exports= VentaCtrl;
+module.exports = VentaCtrl;
